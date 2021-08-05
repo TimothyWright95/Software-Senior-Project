@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "_Layout";
+}
+<h2>User Home Page</h2>
+
+<div>
+    <h4>View Created Prayer Requests, Subscribed Prayer Requests and Subscribed Groups</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked flex-column">
+                <li class=" nav-item"><a class="nav-link @Controllers.UserController.IndexNavClass(ViewContext)" href="~/User/Index">Profile</a></li>
+                <li class=" nav-item"><a class="nav-link @Controllers.UserController.PrayerNavClass(ViewContext)" href="~/User/Prayers">Prayer Requests</a></li>
+                <li class=" nav-item"><a class="nav-link @Controllers.UserController.GroupNavClass(ViewContext)" href="~/User/Groups">Groups</a></li>
+                <li class=" nav-item"><a class="nav-link @Controllers.UserController.PrayerSubNavClass(ViewContext)" href="~/User/SubscribedPrayers">Subscribed Prayers</a></li>
+                <li class=" nav-item"><a class="nav-link @Controllers.UserController.GroupSubNavClass(ViewContext)" href="~/User/SubscribedGroups">Subscribed Groups</a></li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>

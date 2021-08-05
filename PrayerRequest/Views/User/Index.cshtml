@@ -1,0 +1,33 @@
+﻿@{
+
+    ViewData["Title"] = "User Home Page";
+}
+@{
+    Layout = "_UserLayout.cshtml";
+}
+@model User_Model
+<h4>@Model.UserName's Account Information</h4>
+<div class="row">
+    <div class="col-md-12">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <label asp-for="phonenumber"></label>
+            <input asp-for="phonenumber" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <label asp-for="DisplayName"></label>
+            <input asp-for="DisplayName" class="form-control" disabled />
+        </div>
+    </div>
+</div>
+    <form action="/Identity/Account/Manage">
+        <input class="btn btn-primary" type="submit" value="Manage Account" />
+    </form>

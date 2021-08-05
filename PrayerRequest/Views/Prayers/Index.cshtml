@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Prayers/_PrayerLayout.cshtml";
+}
+<h4> Prayer Request Central</h4>
+<div class="row">
+    <div class="col-md-12">
+        This is the place where you will create and subscribe to prayer requests.
+        If you want to search for a prayer request to subscribe to click on the prayer request link to the left.
+        If you want to create a prayer request of your own click on the create request link to the left.
+        Management of created and subscribed prayer requests is handled on the users home page. If you
+        wish to manage your sbscribed and created prayer request click the button below.
+    </div>
+</div>
+<br />
+    <form action="@Url.Action("Prayers","User")" >
+        <input class="btn btn-primary" type="submit" value="Manage Prayers" />
+    </form>
+
+
+

@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using PrayerRequest.Areas.Identity.Data
+@inject SignInManager<PrayerRequestUser> SignInManager
+@inject UserManager<PrayerRequestUser> UserManager
+<li class="nav-item">
+    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
+</li>
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        @Html.ActionLink("User Home", "Index", "User", null, new { @class = "nav-link" })
+    </li>
+    <li class="nav-item">
+        @Html.ActionLink("Prayer Requests", "Index", "Prayers", null, new { @class = "nav-link" })
+    </li>
+    <li class="nav-item">
+        @Html.ActionLink("Groups", "Index", "Group", null, new { @class = "nav-link" })
+    </li>
+}

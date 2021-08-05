@@ -1,0 +1,79 @@
+﻿@model List<Group>
+@{
+    ViewData["Title"] = "Subscribe";
+    Layout = "~/Views/Group/_GroupLayout.cshtml";
+}
+
+<h2>Subscribe</h2>
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" asp-action="Subscribe" asp-controller="Group" class="form-inline">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <input type="text" value="" name="textfilter" placeholder="Enter Search String Here..." id="text_input" />
+                <select asp-items="Html.GetEnumSelectList<PrayerRequest.Repository.States>()" class="form-control" name="state" id="state_selector">
+                    <option value="">-- Select State --</option>
+                </select>
+                <input class="btn btn-primary" type="submit" value="Search" />
+                <script>
+                    document.getElementById("text_input").value = "@ViewBag.textfilter";
+                    document.getElementById("state_selector").selectedIndex = @ViewBag.state;
+
+                </script>
+            </div>
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>
+                        Group Name
+                    </td>
+                    <td>
+                        Description
+                    </td>
+                    <td>
+                        Type
+                    </td>
+                    <td>
+                        Action
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var element in Model)
+                {
+                    <tr>
+                        <td>@element.GroupName</td>
+                        <td>@element.GroupDescription</td>
+                        <td>
+                            @if (element.GroupOpen == false)
+                            {
+                                <text>Closed</text>
+                            }
+                            else
+                            {
+                                <text> Open</text>
+                            }
+                        </td>
+                        <td>
+                            <form method="post" asp-action="SubscribeToGroup" asp-controller="Group">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@element.ID" />
+                                <button class="btn btn-info btn-sm btn-block mb-1" type="submit">Subscribe</button>
+                            </form>
+                            <form method="post" asp-action="ViewGroup" asp-controller="Group">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@element.ID" />
+                                <button class="btn btn-info btn-sm btn-block mb-1" type="submit">View</button>
+                            </form>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+    
+
+</div>
+

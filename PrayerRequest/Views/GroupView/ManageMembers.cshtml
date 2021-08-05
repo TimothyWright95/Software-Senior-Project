@@ -1,0 +1,98 @@
+﻿@model List<List<PrayerRequestUser>>
+@{
+    ViewData["Title"] = "ManageMembers";
+    Layout = "~/Views/GroupView/_GroupViewLayout.cshtml";
+}
+@{ 
+    List<PrayerRequestUser> members = Model[1];
+    List<PrayerRequestUser> moderators = Model[0];
+}
+<h2>Manage Members</h2>
+<br />
+<div class="row">
+    <h5>Moderators</h5>
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr class="row">
+                    <td class="col-md-6">
+                        Username
+                    </td>
+                    <td class="col-md-6">
+                        Action
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var element in moderators)
+                {
+                    <tr class="row">
+                        <td class="col-md-6">@element.DisplayName</td>
+                        <td class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form method="post" asp-action="ManageMembers" asp-controller="GroupView">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="todemote" value="@element.Id" />
+                                        <input type="hidden" name="ID" value="@ViewBag.ID" />
+                                        <button class="btn btn-info btn-sm btn-block mb-1" type="submit">Demote</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div class="row">
+    <h5>Members</h5>
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr class="row">
+                    <td class="col-md-6">
+                        Username
+                    </td>
+                    <td class="col-md-6">
+                        Action
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var element in members)
+                {
+                    <tr class="row">
+                        <td class="col-md-6">@element.DisplayName</td>
+                        <td class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form method="post" asp-action="ManageMembers" asp-controller="GroupView">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="topromote" value="@element.Id" />
+                                        <input type="hidden" name="ID" value="@ViewBag.ID" />
+                                        <button class="btn btn-info btn-sm btn-block mb-1" type="submit">Promote</button>
+                                    </form>
+                                </div>
+                                <div class="col-md-6">
+                                    <form method="post" asp-action="ManageMembers" asp-controller="GroupView">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="toremove" value="@element.Id" />
+                                        <input type="hidden" name="ID" value="@ViewBag.ID" />
+                                        <button class="btn btn-info btn-sm btn-block mb-1" type="submit">Remove</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+

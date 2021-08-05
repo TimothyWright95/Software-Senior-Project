@@ -1,0 +1,32 @@
+.scrollable {
+    max-height: 600px;
+    overflow: auto
+}
+
+.scrollable1 {
+    max-height: 100px;
+    overflow-y: scroll
+}
+.btn-default {
+    color: #007bff;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+.btn-default:focus {
+    color: #007bff;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+.btn-default:hover {
+    color: #007bff;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+.btn-default:active {
+    color: #007bff;
+    background-color: #fff;
+    border-color: #fff;
+}

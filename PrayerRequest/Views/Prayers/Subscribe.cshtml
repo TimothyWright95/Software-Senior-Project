@@ -1,0 +1,76 @@
+﻿@model List<Prayer>
+@{
+    ViewData["Title"] = "Subscribe";
+    Layout = "~/Views/Prayers/_PrayerLayout.cshtml";
+}
+
+<h2>Subscribe</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" asp-action="Subscribe" asp-controller="Prayers" class="form-inline">
+                    @Html.AntiForgeryToken()
+                        <input type="text" class="form-control col-md-6" value="" name="textfilter" placeholder="Enter Search String Here..." id="text_input" />
+                        <select asp-items="Html.GetEnumSelectList<PrayerRequest.Repository.Catagorie>()" class="form-control col-md-2" name="catagorie" id="catagorie_selector">
+                            <option value="">-Catagorie-</option>
+                        </select>
+                        <select asp-items="Html.GetEnumSelectList<PrayerRequest.Repository.States>()" class="form-control col-md-2" name="state" id="state_selector">
+                            <option value="">-State-</option>
+                        </select>
+                        <input class="btn btn-primary  col-md-2 form-control" type="submit" value="Search" />
+                        <script>
+                            document.getElementById("text_input").value = "@ViewBag.textfilter";
+                            document.getElementById("catagorie_selector").selectedIndex = @ViewBag.catagorie;
+                            document.getElementById("state_selector").selectedIndex = @ViewBag.state;
+                        </script>
+
+                </form>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>
+                        Title
+                    </td>
+                    <td>
+                        Short Description
+                    </td>
+                    <td>
+                        User
+                    </td>
+                    <td>
+                        Action
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var element in Model)
+                {
+                    <tr>
+                        <td>@element.Title</td>
+                        <td>@element.ShortDescription</td>
+                        <td>@element.UserID</td>
+                        <td>
+                            <form method="post" asp-action="SubscribeToRequest" asp-controller="Prayers">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@element.ID" />
+                                <button class="btn btn-info btn-sm btn-block mb-1" type="submit">Subscribe</button>
+                            </form>
+                            <form method="post" asp-action="ViewRequest" asp-controller="Prayers">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@element.ID" />
+                                <button class="btn btn-info btn-sm btn-block mb-1" type="submit">View</button>
+                            </form>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+    
+
+</div>
+

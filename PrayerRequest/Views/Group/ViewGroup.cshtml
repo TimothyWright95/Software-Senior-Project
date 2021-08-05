@@ -1,0 +1,52 @@
+﻿@model Group
+@{
+    ViewData["Title"] = "ViewRequest";
+    Layout = "~/Views/Group/_GroupLayout.cshtml";
+}
+
+<h2>ViewRequest</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label asp-for="GroupName"></label>
+            <input asp-for="GroupName" class="form-control" disabled/>
+            <span asp-validation-for="GroupName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="GroupDescription"></label>
+            <textarea asp-for="GroupDescription" disabled class="form-control" text-wrap:normal" type="text" rows="5" placeholder="Group description goes here. (Required)"></textarea>
+            <span asp-validation-for="GroupDescription" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="GroupLocation"></label>
+            <textarea asp-for="GroupLocation" disabled class="form-control" text-wrap:normal" type="text" rows="5" placeholder="Location information goes here (not required)"></textarea>
+            <span asp-validation-for="GroupLocation" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="GroupContact"></label>
+            <textarea asp-for="GroupContact" disabled class="form-control" text-wrap:normal" type="text" rows="5" placeholder="Contact information goes here  (not required)"></textarea>
+            <span asp-validation-for="GroupContact" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="State"></label>
+            <select asp-for="State" disabled asp-items="Html.GetEnumSelectList<PrayerRequest.Repository.States>()" class="form-control">
+                <option value="">-- Select State --</option>
+            </select>
+            <span asp-validation-for="State" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="GroupOpen"></label>
+            <select value="false" disabled asp-for="GroupOpen" class="form-control" on onchange="passwordFunction(this.value)">
+                <option selected value="true">No</option>
+                <option value="false">Yes</option>
+            </select>
+            <span asp-validation-for="GroupOpen" class="text-danger"></span>
+        </div>
+        <form method="post" asp-action="SubscribeToGroup" asp-controller="Group">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.ID" />
+            <button class="btn btn-info btn-sm btn-block mb-1" type="submit">Subscribe</button>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "_Layout";
+}
+<h2>Group Creation and Subscription Page</h2>
+
+<div>
+    <h4>Subscribe to and Create Groups</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked flex-column">
+                <li class=" nav-item"><a class="nav-link @Controllers.GroupController.IndexNavClass(ViewContext)" href="~/Group/Index">Info</a></li>
+                <li class=" nav-item"><a class="nav-link @Controllers.GroupController.CreateNavClass(ViewContext)" href="~/Group/Create">Create</a></li>
+                <li class=" nav-item"><a class="nav-link @Controllers.GroupController.SubscribeNavClass(ViewContext)" href="~/Group/Subscribe">Subscribe</a></li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    @RenderSection("Scripts",false)
+}

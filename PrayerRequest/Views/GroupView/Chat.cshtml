@@ -1,0 +1,75 @@
+﻿@model List<Post>
+@{
+    ViewData["Title"] = "Chat";
+    Layout = "~/Views/GroupView/_GroupViewLayout.cshtml";
+}
+@inject UserManager<PrayerRequestUser> _usermanager
+<script>
+    var GroupID = "@ViewBag.ID";
+    var Mod = "@ViewBag.IsModderator";
+    var Admin = "@ViewBag.Admin";
+    var Owner = "@ViewBag.Owner";
+</script>
+<h2>Chat</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="UserID" value="@_usermanager.GetUserId(User)" />
+}
+
+<div class="row">
+    <div class="col-12" id="rows" style="overflow:auto; height:300px; resize:both;">
+        @foreach (Post post in Model)
+        {
+            <div class="row border border-primary">
+                <div class="col-3 border-right border-primary" style="font-size:80%">
+                    <b>User:</b> <text>@post.DisplayName</text> <br />
+                    <b>Date Posted:</b> <text> @post.Date </text><br />
+                    @if (ViewBag.IsModderator == "true" || ViewBag.Admin == "true" || ViewBag.Owner == "true" || post.OwnerID == _usermanager.GetUserId(User) )
+                    {
+                        <form class="form-inline" method="post" asp-action="Chat" asp-controller="GroupView">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="ID" value="@ViewBag.ID" />
+                            <input type="hidden" name="todelete" value="@post.ID" />
+                            <div class="ml-auto">
+                                <button class="btn btn-info btn-sm mb-1" type="submit">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </form>
+                    }
+                </div>
+                <div class="col-9">
+                    <pre>@post.Postmessage</pre>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <hr />
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <textarea class="form-control" rows="5" id="txtmessage" placeholder="Type your message here"></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-10"></div>
+        <div class="col-2">
+            <input type="button" id="sendBtn" value="Post" class="btn btn-info btn-sm btn-block mb-1" />
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/@@microsoft/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
+
+
+

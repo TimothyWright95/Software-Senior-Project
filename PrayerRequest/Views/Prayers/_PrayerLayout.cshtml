@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "_Layout";
+}
+<h2>Prayer Request Creation and Subscription Page</h2>
+
+<div>
+    <h4>Subscribe to and Create Prayer Requests</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked flex-column">
+                <li class=" nav-item"><a class="nav-link @Controllers.PrayersController.IndexNavClass(ViewContext)" href="~/Prayers/Index">Info</a></li>
+                <li class=" nav-item"><a class="nav-link @Controllers.PrayersController.CreateNavClass(ViewContext)" href="~/Prayers/Create">Create</a></li>
+                <li class=" nav-item"><a class="nav-link @Controllers.PrayersController.SubscribeNavClass(ViewContext)" href="~/Prayers/Subscribe">Subscribe</a></li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    @RenderSection("Scripts",false)
+}

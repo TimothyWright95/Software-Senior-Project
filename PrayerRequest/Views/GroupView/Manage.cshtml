@@ -1,0 +1,181 @@
+﻿@model Group
+@{
+    ViewData["Title"] = "Manage";
+    Layout = "~/Views/GroupView/_GroupViewLayout.cshtml";
+}
+<h2>Manage</h2>
+
+<div class="row">
+
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="GroupName"></label>
+            <input asp-for="GroupName" class="form-control" disabled />
+            <span asp-validation-for="GroupName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="GroupDescription"></label>
+            <textarea asp-for="GroupDescription" disabled class="form-control" text-wrap:normal" type="text" rows="5" placeholder="Group description goes here. (Required)"></textarea>
+            <span asp-validation-for="GroupDescription" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="GroupLocation"></label>
+            <textarea asp-for="GroupLocation" disabled class="form-control" text-wrap:normal" type="text" rows="5" placeholder="Location information goes here (not required)"></textarea>
+            <span asp-validation-for="GroupLocation" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="GroupContact"></label>
+            <textarea asp-for="GroupContact" disabled class="form-control" text-wrap:normal" type="text" rows="5" placeholder="Contact information goes here  (not required)"></textarea>
+            <span asp-validation-for="GroupContact" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="State"></label>
+            <select asp-for="State" disabled asp-items="Html.GetEnumSelectList<PrayerRequest.Repository.States>()" class="form-control">
+                <option value="">-- Select State --</option>
+            </select>
+            <span asp-validation-for="State" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="GroupOpen"></label>
+            <select value="false" disabled asp-for="GroupOpen" class="form-control" on onchange="passwordFunction(this.value)">
+                <option selected value="true">No</option>
+                <option value="false">Yes</option>
+            </select>
+            <span asp-validation-for="GroupOpen" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            @if (ViewBag.IMG_PATH != "")
+            {
+                <img src="@ViewBag.IMG_PATH" alt="Group Image" width="200" height="200" />
+            }
+            else
+            {
+                <h5>Add Group Image</h5>
+                <form method="post" enctype="multipart/form-data" asp-controller="GroupView" asp-action="Manage" id="form">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group col-md-12">
+                        <div class="row">
+                            <input type="file" name="files" id="filePicker" />
+                        </div>
+                        <div id="noFileError" style="display:none;" class="row">
+                            <b>Please select a valid image file.</b>
+                        </div>
+                    </div>
+                    <input type="hidden" name="uploadfile" value="@Model.ID" />
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="submit" value="Upload" class="btn btn-primary" />
+                        </div>
+                        <div id="imageValidationError" style="display:none;">
+                            <b>
+                                The image resolution is too large. Maximun size allowed is 400 x 600.
+                            </b>
+                        </div>
+                    </div>
+                </form>
+            }
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                @if (ViewBag.Owner == "true" || ViewBag.Admin == "true")
+                {
+                    <div class="row">
+                        <h5>Disband Group</h5>
+                    </div>
+                    <div class="row">
+                        <form method="post" asp-controller="GroupView" asp-action="Disband">
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <input name="Id" type="hidden" value="@ViewBag.ID" />
+                                    <input class="btn btn-primary" type="submit" value="Disband" />
+                                </div>
+
+                            </div>
+
+                        </form>
+
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+    {
+    <script type="text/javascript">
+        var _URL = window.URL || window.webkitURL;
+
+        function isSupportedBrowser() {
+            return window.File && window.FileReader && window.FileList && window.Image;
+        }
+
+        function getSelectedFile() {
+            var fileInput = document.getElementById("filePicker");
+            var fileIsSelected = fileInput && fileInput.files && fileInput.files[0];
+            if (fileIsSelected)
+                return fileInput.files[0];
+            else
+                return false;
+        }
+
+        function isGoodImage(file) {
+            var deferred = jQuery.Deferred();
+            var image = new Image();
+
+            image.onload = function () {
+                // Check if image is bad/invalid
+                if (this.width + this.height === 0) {
+                    this.onerror();
+                    return;
+                }
+
+                // Check the image resolution
+                if (this.width <= 400 && this.height <= 600) {
+                    deferred.resolve(true);
+                } else {
+                    $("#imageValidationError").show();
+                    deferred.resolve(false);
+                }
+            };
+
+            image.onerror = function () {
+                $("#noFileError").show();
+                deferred.resolve(false);
+            }
+
+            image.src = _URL.createObjectURL(file);
+
+            return deferred.promise();
+        }
+
+
+        $("#form").submit(function (event) {
+            var form = this;
+
+            if (isSupportedBrowser()) {
+                event.preventDefault(); //Stop the submit for now
+
+                var file = getSelectedFile();
+                if (!file) {
+                    $("#noFileError").show();
+                    return;
+                }
+
+                isGoodImage(file).then(function (isGood) {
+                    if (isGood)
+                        form.submit();
+                });
+            }
+        });
+    </script>
+}
+

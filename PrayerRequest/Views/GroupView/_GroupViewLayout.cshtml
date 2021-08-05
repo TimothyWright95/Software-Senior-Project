@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "_Layout";
+}
+<h2>@ViewBag.GroupName</h2>
+<div>
+    <h4>@ViewBag.GroupName's group page</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked flex-column">
+
+                <li class=" nav-item">
+                    <form method="post" asp-action="Index" asp-controller="GroupView">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@ViewBag.ID" />
+                        <button class="btn btn-block navbar-btn text-left shadow-none white @Controllers.GroupViewController.IndexNavClass(ViewContext)" type="submit">Home</button>
+                    </form>
+                </li>
+                <li class=" nav-item">
+                    <form method="post" asp-action="Chat" asp-controller="GroupView">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@ViewBag.ID" />
+                        <button class="btn btn-block navbar-btn text-left shadow-none white @Controllers.GroupViewController.ChatNavClass(ViewContext)" type="submit">Chat Room</button>
+                    </form>
+                </li>
+                <li class=" nav-item">
+                    <form method="post" asp-action="Bulletin" asp-controller="GroupView">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@ViewBag.ID" />
+                        <button class="btn btn-block navbar-btn text-left shadow-none white @Controllers.GroupViewController.BulletinNavClass(ViewContext)" type="submit">Bulletin</button>
+                    </form>
+                </li>
+                <li class=" nav-item">
+                    <form method="post" asp-action="Prayers" asp-controller="GroupView">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@ViewBag.ID" />
+                        <button class="btn btn-block navbar-btn text-left shadow-none white @Controllers.GroupViewController.PrayersNavClass(ViewContext)" type="submit">Prayers</button>
+                    </form>
+                </li>
+                @if (ViewBag.IsModderator == "true" || ViewBag.Admin == "true")
+                {
+                    <li class=" nav-item">
+                        <form method="post" asp-action="Manage" asp-controller="GroupView">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@ViewBag.ID" />
+                            <button class="btn btn-block navbar-btn text-left shadow-none white @Controllers.GroupViewController.ManageNavClass(ViewContext)" type="submit">Manage</button>
+                        </form>
+                    </li>
+                }
+                @if (ViewBag.Owner == "true" || ViewBag.Admin == "true")
+                {
+                    <li class=" nav-item">
+                        <form method="post" asp-action="ManageMembers" asp-controller="GroupView">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@ViewBag.ID" />
+                            <button class="btn btn-block navbar-btn text-left shadow-none white @Controllers.GroupViewController.ManageMembersNavClass(ViewContext)" type="submit">Manage Members</button>
+                        </form>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    @RenderSection("Scripts", false)
+}

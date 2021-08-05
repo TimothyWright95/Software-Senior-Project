@@ -1,0 +1,27 @@
+﻿@model Bulitin
+@{
+    ViewData["Title"] = "CreateEvent";
+    Layout = "~/Views/GroupView/_GroupViewLayout.cshtml";
+}
+
+<h2>CreateEvent</h2>
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" asp-action="Bulletin" asp-controller="GroupView">
+            <div class="form-group">
+                <label asp-for="EventTitle"></label>
+                <input asp-for="EventTitle" class="form-control" />
+                <span asp-validation-for="EventTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bulitinmessage"></label>
+                <textarea asp-for="Bulitinmessage" class="form-control" text-wrap:normal" type="text" rows="5" placeholder="Event Details go here (required)"></textarea>
+                <span asp-validation-for="Bulitinmessage" class="text-danger"></span>
+            </div>
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="GroupID" value="@ViewBag.ID" />
+            <input type="hidden" value="@ViewBag.ID" name="ID" />
+            <input class="btn btn-info btn-sm btn-block mb-1" type="submit"  value="Post Event">
+        </form>
+    </div>
+</div>

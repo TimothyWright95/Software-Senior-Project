@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "Error";
+    Layout = "~/Views/Prayers/_PrayerLayout.cshtml";
+}
+
+<h2>Create Prayer Request</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        Unfortunatly it seems as though you have 50 or more prayer requests and therefore we cannot
+        create this request for you. Please delete some prayer requests before you attempt to create more.
+        A maximum of 50 requets are allowed for each user.
+    </div>
+</div>
+<br />
+<form action="@Url.Action("Prayers","User")">
+    <input class="btn btn-primary" type="submit" value="Manage Prayers" />
+</form>

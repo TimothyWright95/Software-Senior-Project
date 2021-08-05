@@ -1,0 +1,69 @@
+﻿@model List<Group>
+@{
+    ViewData["Title"] = "Groups";
+    Layout = "~/Views/User/_UserLayout.cshtml";
+}
+
+<h2>Groups</h2>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr class="row">
+                    <td class="col-md-3">
+                        Group Name
+                    </td>
+                    <td class="col-md-6">
+                        Description
+                    </td>
+                    <td class="col-md-3">
+                        Action
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var element in Model)
+                {
+                    <tr class="row">
+                        <td class="col-md-3">@element.GroupName</td>
+                        <td class="col-md-6">@element.GroupDescription</td>
+                        <td class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form method="post" asp-action="Manage" asp-controller="GroupView">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@element.ID" />
+                                        <button class="btn btn-info btn-sm btn-block mb-1" type="submit">Manage</button>
+                                    </form>
+                                </div>
+                                <div class="col-md-6">
+                                    <form method="post" asp-action="Index" asp-controller="GroupView">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@element.ID" />
+                                        <button class="btn btn-info btn-sm btn-block mb-1" type="submit">View</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+<br />
+<div>
+    Not seeing the one you want? Create a group by clicking the button below.
+</div>
+<br />
+<div>
+    <form action="@Url.Action("Create","Group")">
+        <input class="btn btn-primary" type="submit" value="Create Group" />
+    </form>
+</div>
+
+
+

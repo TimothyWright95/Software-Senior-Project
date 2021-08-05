@@ -1,0 +1,68 @@
+﻿@model List<Group>
+@{
+    ViewData["Title"] = "SubscribedGroups";
+    Layout = "~/Views/User/_UserLayout.cshtml";
+}
+
+<h2>Subscribed Groups</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr class="row">
+                    <td class="col-md-3">
+                        Name
+                    </td>
+                    <td class="col-md-6">
+                        Description
+                    </td>
+                    <td class="col-md-3">
+                        Action
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var element in Model)
+                {
+                    <tr class="row">
+                        <td class="col-md-3">@element.GroupName</td>
+                        <td class="col-md-6">@element.GroupDescription</td>
+                        <td class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <form method="post" asp-action="SubscribedGroups" asp-controller="User">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@element.ID" />
+                                        <button class="btn btn-info btn-sm btn-block mb-1" type="submit">Unsubscribe</button>
+                                    </form>
+                                </div>
+                                <div class="col-md-5">
+                                    <form method="post" asp-action="Index" asp-controller="GroupView">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@element.ID" />
+                                        <button class="btn btn-info btn-sm btn-block mb-1" type="submit">View</button>
+                                    </form>
+                                </div>
+                            </div>
+                           
+                            
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<br />
+<div>
+    Not seeing the one you want? Subscribe to a Group by clicking the button below.
+</div>
+<br />
+<div>
+    <form action="@Url.Action("Subscribe","Group")">
+        <input class="btn btn-primary" type="submit" value="Subscribe" />
+    </form>
+</div>

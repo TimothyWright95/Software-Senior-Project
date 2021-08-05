@@ -1,0 +1,9 @@
+﻿.scrollable {
+    max-height: 600px;
+    overflow: auto
+}
+
+.scrollable1 {
+    max-height: 100px;
+    overflow-y: scroll
+}

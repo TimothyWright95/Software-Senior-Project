@@ -1,0 +1,96 @@
+﻿@model List<Bulitin>
+@{
+    ViewData["Title"] = "Bulletin";
+    Layout = "~/Views/GroupView/_GroupViewLayout.cshtml";
+}
+@{
+    int size = Model.Count;
+}
+<h2>Bulletin</h2>
+@if (size == 0)
+{
+    <text>Curently no events</text>
+}
+else
+{
+    <div class="row bg-warning py-1">
+        @for (int ii = 0; ii < size; ii += 2)
+        {
+            <div class="col-md-12">
+                <div class="row">
+                    @if (ii < size)
+                    {
+                        <div class="col-md-6">
+
+                            <div class="bg-info m-1 p-2">
+                                @if (ViewBag.IsModderator == "true" || ViewBag.Admin == "true" || ViewBag.Owner == "true")
+                                {
+                                    <form class="form-inline" method="post" asp-action="Bulletin" asp-controller="GroupView">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="ID" value="@ViewBag.ID" />
+                                        <input type="hidden" name="todelete" value="@Model[ii].ID" />
+                                        <b class="text-center">@Model[ii].EventTitle</b>
+                                        <div class="ml-auto">
+                                            <button class="btn btn-info btn-sm mb-1" type="submit">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <b class="text-center">@Model[ii].EventTitle</b>
+                                }
+                                <br />
+                                Date Posted: @Model[ii].DatePosted.ToShortDateString()
+                                <br />
+                                @Model[ii].Bulitinmessage
+                            </div>
+                        </div>
+                    }
+                    @if (ii + 1 < size)
+                    {
+
+                        <div class="col-md-6">
+                            <div class="bg-info m-1 p-2">
+                                @if (ViewBag.IsModderator == "true" || ViewBag.Admin == "true" || ViewBag.Owner == "true")
+                                {
+                                    <form class="form-inline" method="post" asp-action="Bulletin" asp-controller="GroupView">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="ID" value="@ViewBag.ID" />
+                                        <input type="hidden" name="todelete" value="@Model[ii + 1].ID" />
+                                        <b class="text-center">@Model[ii + 1].EventTitle</b>
+                                        <div class="ml-auto">
+                                            <button class="btn btn-info btn-sm mb-1" type="submit">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <b class="text-center">@Model[ii + 1].EventTitle</b>
+                                }
+                                <br />
+                                Date Posted: @Model[ii + 1].DatePosted.ToShortDateString()
+                                <br />
+                                @Model[ii + 1].Bulitinmessage
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+            <br />
+        }
+    </div>
+}
+@if (ViewBag.IsModderator == "true" || ViewBag.Owner == "true")
+{
+    <br />
+    <form method="post" asp-action="CreateEvent" asp-controller="GroupView">
+        @Html.AntiForgeryToken()
+        <input type="hidden" value="@ViewBag.ID" name="ID" />
+        <button class="btn btn-info btn-sm mb-1" type="submit">Create New Event</button>
+    </form>
+}

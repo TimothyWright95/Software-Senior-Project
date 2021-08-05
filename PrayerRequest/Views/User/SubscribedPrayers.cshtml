@@ -1,0 +1,69 @@
+﻿@model List<Prayer>
+@{
+    ViewData["Title"] = "SubscribedPrayers";
+    Layout = "~/Views/User/_UserLayout.cshtml";
+}
+
+<h2>Subscribed Prayers</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr class="row">
+                    <td class="col-md-3">
+                        Title
+                    </td>
+                    <td class="col-md-6">
+                        Short Description
+                    </td>
+                    <td class="col-md-3">
+                        Action
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var element in Model)
+                {
+                <tr class="row">
+                    <td class="col-md-3">@element.Title</td>
+                    <td class="col-md-6">@element.ShortDescription</td>
+
+                    <td class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <form method="post" asp-action="SubscribedPrayers" asp-controller="User">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@element.ID" />
+                                    <button class="btn btn-info btn-sm btn-block mb-1" type="submit">Unsubscribe</button>
+                                </form>
+                            </div>
+                            <div class="col-md-5">
+                                <form method="post" asp-action="ViewPrayer" asp-controller="User">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@element.ID" />
+                                    <button class="btn btn-info btn-sm btn-block mb-1" type="submit">View</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<br />
+<div>
+    Not seeing the one you want? Subscribe to a prayer request by clicking the button below.
+</div>
+<br />
+<div>
+    <form action="@Url.Action("Subscribe","Prayers")">
+        @Html.AntiForgeryToken()
+        <input class="btn btn-primary" type="submit" value="Subscribe" />
+    </form>
+</div>

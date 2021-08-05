@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Group/_GroupLayout.cshtml";
+}
+<h4> Group Central</h4>
+<div class="row">
+    <div class="col-md-12">
+        This is the place where you will create and subscribe to Groups.
+        If you want to search for a group to subscribe to click on the group search link to the left.
+        If you want to create a group of your own click on the create group link to the left.
+        Management of created and subscribed groups is handled on the users home page. If you
+        wish to manage your sbscribed and created groups click the button below.
+    </div>
+</div>
+<br />
+    <form action="@Url.Action("Groups","User")" >
+        <input class="btn btn-primary" type="submit" value="Manage Groups" />
+    </form>
+
+
+
